@@ -35,7 +35,7 @@
       transition: opacity 0.6s ease-in-out;
     }
 
-    /* Navigation */
+    /* Navigation - Synced with Home */
     .main-nav { 
       position: fixed; 
       top: 40px; 
@@ -96,7 +96,7 @@
     .copy-link.copied .label { opacity: 0; transform: translateY(-5px); }
     .copy-link.copied .status { opacity: 1; transform: translateY(0); }
 
-    /* Footer Styles */
+    /* Footer - Synced with Home */
     footer {
       position: fixed;
       bottom: 0;
@@ -128,10 +128,8 @@
       stroke: #444; 
       fill: none;
       transition: all 0.3s ease-in-out;
-      filter: drop-shadow(0 0 0px transparent);
     }
     
-    /* ICON GLOW ONLY */
     .social-links a:hover .social-icon { 
       stroke: #fff; 
       transform: translateY(-3px);
@@ -140,19 +138,19 @@
 
     .footer-text {
       font-size: 0.65rem;
-      color: #444; 
+      color: #444 !important; 
       letter-spacing: 2px;
       text-transform: uppercase;
-      /* Notice: No transition or hover effect added here */
+      pointer-events: none;
     }
 
-    /* Content wrapper */
+    /* Content Area */
     .content-wrapper { 
       position: relative; 
       z-index: 2; 
       width: 100%; 
       padding-top: 100px;
-      padding-bottom: 150px; 
+      padding-bottom: 180px; 
     }
 
     .works-container {
@@ -213,7 +211,9 @@
           <img src="https://via.placeholder.com/800x450" alt="Work">
           <img src="https://via.placeholder.com/800x450" alt="Work">
         </div>
-        <p class="project-description">Hover the icons below to see the glow.</p>
+        <p class="project-description">
+          Add your project details here. This layout keeps everything centered at 50% width on desktop for that high-end portfolio feel.
+        </p>
       </section>
     </main>
   </div>
@@ -229,8 +229,7 @@
         </a>
         <a href="https://steamcommunity.com/id/gunslinging1/" target="_blank">
           <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 24C5.385 24 0 18.615 0 12S5.385 0 12 0s12 5.385 12 12-5.385 12-12 12zM5.57 15.312c.181.56.516 1.057.962 1.428l2.977 4.195c.2.282.528.453.878.465a1.08 1.08 0 0 0 .918-.541l2.583-4.423a3.52 3.52 0 0 0 1.348-.157l4.496 2.002a.545.545 0 0 0 .736-.264l.872-1.96a.545.545 0 0 0-.265-.737l-4.475-1.99a3.535 3.535 0 0 0 .114-2.887 3.535 3.535 0 0 0-4.475-1.99l-2.002-4.496a.545.545 0 0 0-.737-.265l-1.96.872a.545.545 0 0 0-.264.737l2.002 4.496a3.535 3.535 0 0 0-3.708 6.185z"></path>
-            <circle cx="12" cy="12" r="1.5"></circle>
+            <path d="M12 2a10 10 0 0 0-9.92 8.79l3.5 1.54a3.5 3.5 0 0 1 6.3 2.11l4.47 2a3.5 3.5 0 1 1-.44 1.27l-4.47-2a3.5 3.5 0 0 1-5.18-3.04l-3.53-1.55A10 10 0 1 0 12 2z"/>
           </svg>
         </a>
       </div>
@@ -246,7 +245,7 @@
 
       document.querySelectorAll('.transition-link').forEach(link => {
         link.addEventListener('click', (e) => {
-          if (link.getAttribute('href') === window.location.pathname.split('/').pop()) return;
+          if (link.href === window.location.href) return;
           e.preventDefault();
           const target = link.href;
           overlay.style.opacity = '1';
@@ -257,9 +256,8 @@
 
     // EMAIL LOGIC
     const emailBtn = document.getElementById('copyEmail');
-    const myEmail = 'maroggebriel@gmail.com';
     emailBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText(myEmail).then(() => {
+      navigator.clipboard.writeText('maroggebriel@gmail.com').then(() => {
         emailBtn.classList.add('copied');
         setTimeout(() => emailBtn.classList.remove('copied'), 2000);
       });
