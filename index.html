@@ -6,20 +6,21 @@
   <title>MG. Lawless</title>
   <link rel="icon" type="image/jpeg" href="https://cdn.discordapp.com/attachments/1186625565168500796/1491112293696536607/634fc7589ecb8b3229528763c2a246a1.jpg?ex=69d6820a&is=69d5308a&hm=eed0820dbc511d8613de37b479467bac7d0246cfb5ff357f407fda38b3e18e4f&">
   
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+
   <style>
     :root {
       --accent: #ff3366;
       --text-dim: #666;
     }
     
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body { 
-      margin: 0; 
       background: #000; 
       font-family: 'Inter', -apple-system, sans-serif; 
       color: white;
-      min-height: 150vh; /* Keeps it scrollable */
+      min-height: 200vh;
     }
 
     canvas { 
@@ -30,6 +31,7 @@
       z-index: 1; 
     }
     
+    /* Sticky Navigation */
     .main-nav { 
       position: fixed; 
       top: 40px; 
@@ -47,7 +49,7 @@
       text-transform: uppercase; 
       border-left: 3px solid var(--accent); 
       padding-left: 15px; 
-      transition: border-color 0.05s linear;
+      transition: border-color 0.4s ease-in-out;
     }
 
     .nav-links { 
@@ -76,26 +78,29 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      transition: color 0.05s linear;
+      transition: color 0.4s ease-in-out;
     }
 
     .copy-link .status { display: none; color: #4ade80; font-weight: bold; }
     .copy-link.copied .status { display: inline; }
     .copy-link.copied .label { display: none; }
 
+    /* Centered Typewriter with Terminus Font */
     .header-center {
       position: fixed;
       top: 40px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 10;
-      font-family: 'Courier New', Courier, monospace;
+      /* Terminus first, then JetBrains Mono as the premium console-style fallback */
+      font-family: 'Terminus', 'JetBrains Mono', monospace;
       font-weight: bold;
       color: var(--accent);
       font-size: 1.8rem;
       pointer-events: none;
       white-space: nowrap;
-      transition: color 0.05s linear;
+      transition: color 0.4s ease-in-out;
+      letter-spacing: -0.5px;
     }
 
     .cursor {
@@ -103,28 +108,51 @@
       width: 2px; 
       height: 1.6rem;
       background: var(--accent);
-      margin-left: 8px;
+      margin-left: 4px;
       animation: blink 1s infinite;
       vertical-align: middle;
-      transition: background 0.05s linear;
+      transition: background 0.4s ease-in-out;
     }
 
     @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-    .content-wrapper { position: relative; z-index: 2; width: 100%; padding-top: 100vh; }
-
+    /* Sticky Footer */
     footer {
-      position: relative;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
       z-index: 10;
-      padding: 60px 40px;
+      padding: 30px;
       text-align: center;
+      pointer-events: none;
+    }
+
+    .footer-content {
+      pointer-events: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .yt-icon {
+      width: 24px;
+      height: 24px;
+      display: block;
+      transition: opacity 0.3s ease;
+    }
+    
+    .yt-icon:hover { opacity: 0.6; }
+
+    .footer-text {
       font-size: 0.65rem;
       color: #444;
       letter-spacing: 2px;
       text-transform: uppercase;
-      background: linear-gradient(to top, rgba(0,0,0,1), transparent);
     }
 
+    .content-wrapper { position: relative; z-index: 2; width: 100%; padding-top: 100vh; }
     .lil-gui { z-index: 100; }
   </style>
 </head>
@@ -151,7 +179,17 @@
     </div>
 
   <footer>
-    ©2026 / All Right Reserved / LAWLESS / MARWAN GEBRIEL
+    <div class="footer-content">
+      <a href="https://www.youtube.com/@lawless-mg" target="_blank">
+        <svg class="yt-icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.42a2.78 2.78 0 0 0-1.94 2C1 8.14 1 12 1 12s0 3.86.46 5.58a2.78 2.78 0 0 0 1.94 2c1.72.42 8.6.42 8.6.42s6.88 0 8.6-.42a2.78 2.78 0 0 0 1.94-2C23 15.86 23 12 23 12s0-3.86-.46-5.58z"></path>
+          <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"></polygon>
+        </svg>
+      </a>
+      <div class="footer-text">
+        ©2026 / All Right Reserved / LAWLESS / MARWAN GEBRIEL
+      </div>
+    </div>
   </footer>
 
   <script type="importmap">
@@ -171,7 +209,6 @@
     const text = "Welcome Traveller";
     const typewriterElement = document.getElementById('typewriter');
     let charIndex = 0;
-
     function type() {
       if (charIndex < text.length) {
         typewriterElement.textContent += text.charAt(charIndex);
@@ -224,7 +261,6 @@
         material.dispose();
         scene.remove(points);
       }
-
       geometry = new THREE.BufferGeometry();
       const positions = new Float32Array(params.count * 3);
       const colors = new Float32Array(params.count * 3);
@@ -236,24 +272,18 @@
         const radius = Math.random() * params.radius;
         const spinAngle = radius * params.spin;
         const branchAngle = (i % params.branches) / params.branches * Math.PI * 2;
-
         const randomX = Math.pow(Math.random(), 3) * (Math.random() < 0.5 ? 1 : -1) * params.randomness * radius;
         const randomY = Math.pow(Math.random(), 3) * (Math.random() < 0.5 ? 1 : -1) * params.randomness * radius;
         const randomZ = Math.pow(Math.random(), 3) * (Math.random() < 0.5 ? 1 : -1) * params.randomness * radius;
-
         positions[i3] = Math.cos(branchAngle + spinAngle) * radius + randomX;
         positions[i3 + 1] = randomY;
         positions[i3 + 2] = Math.sin(branchAngle + spinAngle) * radius + randomZ;
-
         const mixedColor = colorInside.clone().lerp(colorOutside, radius / params.radius);
-        colors[i3] = mixedColor.r;
-        colors[i3 + 1] = mixedColor.g;
-        colors[i3 + 2] = mixedColor.b;
+        colors[i3] = mixedColor.r; colors[i3 + 1] = mixedColor.g; colors[i3 + 2] = mixedColor.b;
       }
 
       geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
       geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
       material = new THREE.PointsMaterial({
         size: 0.015,
         sizeAttenuation: true,
@@ -261,22 +291,26 @@
         blending: THREE.AdditiveBlending,
         vertexColors: true
       });
-
       points = new THREE.Points(geometry, material);
       scene.add(points);
-      syncAccentColor();
     };
 
     generateGalaxy();
+    syncAccentColor();
 
     // --- GUI ---
     const gui = new GUI();
-    // Real-time update logic
-    gui.addColor(params, 'insideColor').name('Core Color').onChange(() => {
-      syncAccentColor();
-      generateGalaxy(); 
-    });
-    gui.addColor(params, 'outsideColor').name('Edge Color').onChange(generateGalaxy);
+    
+    // Everything updates only on release (onFinishChange)
+    gui.addColor(params, 'insideColor').name('Core Color')
+       .onFinishChange(() => {
+          syncAccentColor();
+          generateGalaxy();
+       }); 
+
+    gui.addColor(params, 'outsideColor').name('Edge Color')
+       .onFinishChange(generateGalaxy);
+
     gui.close();
 
     function animate() {
