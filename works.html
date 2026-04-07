@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Works | MG. Lawless</title>
+  <link rel="icon" type="image/jpeg" href="https://cdn.discordapp.com/attachments/1186625565168500796/1491112293696536607/634fc7589ecb8b3229528763c2a246a1.jpg">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --accent: #26c9df;
+      --text-dim: #666;
+      --bg: #000;
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body { 
+      background: var(--bg); 
+      font-family: 'Inter', -apple-system, sans-serif; 
+      color: white;
+      line-height: 1.6;
+    }
+
+    /* Navigation - Kept same as Home for consistency */
+    .main-nav { 
+      position: fixed; 
+      top: 40px; 
+      left: 40px; 
+      z-index: 10; 
+      display: flex; 
+      flex-direction: column; 
+      gap: 20px; 
+    }
+    .nav-logo { font-weight: 800; font-size: 1.2rem; letter-spacing: 3px; text-transform: uppercase; border-left: 3px solid var(--accent); padding-left: 15px; }
+    .nav-links { display: flex; flex-direction: column; gap: 12px; font-size: 0.85rem; color: var(--text-dim); }
+    .nav-links a { text-decoration: none; color: inherit; transition: 0.3s ease; width: fit-content; }
+    .nav-links a:hover { color: #fff; transform: translateX(5px); }
+
+    /* The "50% Width" Centered Container */
+    .content-container {
+      max-width: 50%; /* This handles your 50% requirement */
+      margin: 0 auto; /* This centers it */
+      padding: 120px 0; /* Padding top/bottom so it doesn't hit the edges */
+      display: flex;
+      flex-direction: column;
+      gap: 100px; /* Space between different projects */
+    }
+
+    /* Project Styling */
+    .project-entry { width: 100%; }
+    .project-title { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 2rem; margin-bottom: 10px; }
+    .project-tagline { color: var(--text-dim); font-size: 1rem; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 1px; }
+    
+    /* The Image Grid (Like your Risky Fishing example) */
+    .project-media-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr; /* Two columns */
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .project-media-grid img, .project-media-grid video {
+      width: 100%;
+      height: auto;
+      border: 1px solid #222;
+      border-radius: 4px;
+    }
+    .full-width-media { grid-column: span 2; } /* For a big video or main image */
+
+    .project-description { color: #ccc; font-size: 0.95rem; max-width: 90%; }
+
+    /* Mobile: Expand to 90% width so it's readable on phones */
+    @media (max-width: 1024px) {
+      .content-container { max-width: 90%; }
+      .main-nav { position: relative; top: 20px; left: 20px; margin-bottom: 60px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="main-nav">
+    <div class="nav-logo">MG. Lawless</div>
+    <div class="nav-links">
+      <a href="./">Home</a>
+      <a href="works.html" style="color: #fff;">Works</a>
+      <a href="blog.html">Blog</a>
+    </div>
+  </nav>
+
+  <main class="content-container" id="works-list">
+    </main>
+
+  <script>
+    // 1. Fetch the data from your JSON file
+    fetch('data.json')
+      .then(response => response.json())
+      .then(data => {
+        const container = document.getElementById('works-list');
+        
+        // 2. Loop through each project in the "projects" array
+        data.projects.forEach(project => {
+          const projectSection = document.createElement('section');
+          projectSection.className = 'project-entry';
+          
+          // Create the HTML structure for one project
+          projectSection.innerHTML = `
+            <h1 class="project-title">${project.title}</h1>
+            <p class="project-tagline">${project.tagline}</p>
+            
+            <div class="project-media-grid">
+              ${project.video ? `<video class="full-width-media" controls><source src="${project.video}" type="video/mp4"></video>` : ''}
+              
+              ${project.images.map(img => `<img src="${img}" alt="Project Screenshot">`).join('')}
+            </div>
+
+            <p class="project-description">${project.description}</p>
+          `;
+          
+          container.appendChild(projectSection);
+        });
+      })
+      .catch(err => console.log("Error loading JSON:", err));
+  </script>
+
+</body>
+</html>
