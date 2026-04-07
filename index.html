@@ -44,7 +44,7 @@
       z-index: 1; 
     }
     
-    /* Navigation - EXACT MATCH TO WORKS */
+    /* Navigation */
     .main-nav { 
       position: fixed; 
       top: 40px; 
@@ -97,7 +97,6 @@
       width: fit-content;
     }
     .copy-link:hover { transform: translateX(5px); }
-    .copy-link .label { transition: opacity 0.3s ease, transform 0.3s ease; }
     .copy-link .status { 
       position: absolute; left: 0; opacity: 0; color: #4ade80; font-weight: bold;
       pointer-events: none; white-space: nowrap; transform: translateY(5px);
@@ -150,16 +149,41 @@
       align-items: center;
       gap: 15px;
     }
-    .yt-icon { width: 24px; height: 24px; stroke: #444; transition: stroke 0.3s ease; }
-    .footer-content:hover .yt-icon { stroke: #fff; }
+    
+    .social-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .social-icon { 
+      width: 24px; 
+      height: 24px; 
+      stroke: #444; 
+      fill: none;
+      transition: all 0.3s ease; 
+    }
+    
+    .social-links a:hover .social-icon { 
+      stroke: #fff; 
+      transform: translateY(-3px);
+      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
+    }
+
+    .footer-text { 
+      font-size: 0.65rem; 
+      color: #444; 
+      letter-spacing: 2px; 
+      text-transform: uppercase; 
+      transition: color 0.3s ease; 
+    }
     .footer-content:hover .footer-text { color: #fff; }
-    .footer-text { font-size: 0.65rem; color: #444; letter-spacing: 2px; text-transform: uppercase; transition: color 0.3s ease; }
 
     .content-wrapper { position: relative; z-index: 2; width: 100%; padding-top: 100vh; }
 
     @media (max-width: 768px) {
       .header-center { top: 80px; font-size: 1.2rem; }
-      .main-nav { top: auto; bottom: 100px; left: 20px; }
+      .main-nav { top: auto; bottom: 120px; left: 20px; }
     }
   </style>
 </head>
@@ -188,12 +212,20 @@
 
   <footer>
     <div class="footer-content">
-      <a href="https://www.youtube.com/@lawless-mg" target="_blank">
-        <svg class="yt-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.42a2.78 2.78 0 0 0-1.94 2C1 8.14 1 12 1 12s0 3.86.46 5.58a2.78 2.78 0 0 0 1.94 2c1.72.42 8.6.42 8.6.42s6.88 0 8.6-.42a2.78 2.78 0 0 0 1.94-2C23 15.86 23 12 23 12s0-3.86-.46-5.58z"></path>
-          <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"></polygon>
-        </svg>
-      </a>
+      <div class="social-links">
+        <a href="https://www.youtube.com/@lawless-mg" target="_blank">
+          <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.42a2.78 2.78 0 0 0-1.94 2C1 8.14 1 12 1 12s0 3.86.46 5.58a2.78 2.78 0 0 0 1.94 2c1.72.42 8.6.42 8.6.42s6.88 0 8.6-.42a2.78 2.78 0 0 0 1.94-2C23 15.86 23 12 23 12s0-3.86-.46-5.58z"></path>
+            <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"></polygon>
+          </svg>
+        </a>
+        <a href="https://steamcommunity.com/id/gunslinging1/" target="_blank">
+          <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a10 10 0 0 0-9.92 8.79l3.5 1.54a3.5 3.5 0 0 1 6.3 2.11l4.47 2a3.5 3.5 0 1 1-.44 1.27l-4.47-2a3.5 3.5 0 0 1-5.18-3.04l-3.53-1.55A10 10 0 1 0 12 2z"/>
+            <circle cx="12" cy="14.5" r="1"/>
+          </svg>
+        </a>
+      </div>
       <div class="footer-text">©2026 / All Right Reserved / LAWLESS / MARWAN GEBRIEL</div>
     </div>
   </footer>
@@ -242,15 +274,14 @@
 
     // EMAIL
     const emailBtn = document.getElementById('copyEmail');
-    const myEmail = 'maroggebriel@gmail.com';
     emailBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText(myEmail).then(() => {
+      navigator.clipboard.writeText('maroggebriel@gmail.com').then(() => {
         emailBtn.classList.add('copied');
         setTimeout(() => emailBtn.classList.remove('copied'), 2000);
       });
     });
 
-    // THREE.JS GALAXY (Params & Setup)
+    // THREE.JS GALAXY
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0, 6, 12);
@@ -298,6 +329,12 @@
     };
 
     generateGalaxy();
+
+    // GUI CONTROLS
+    const gui = new GUI();
+    gui.addColor(params, 'insideColor').onFinishChange(generateGalaxy);
+    gui.addColor(params, 'outsideColor').onFinishChange(generateGalaxy);
+    gui.add(params, 'count').min(100).max(100000).step(100).onFinishChange(generateGalaxy);
 
     function animate() {
       requestAnimationFrame(animate);
