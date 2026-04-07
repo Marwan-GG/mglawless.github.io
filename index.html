@@ -15,7 +15,6 @@
     
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* CHANGE 1: Locked to single frame, no scrolling */
     body, html { 
       background: #000; 
       font-family: 'Inter', -apple-system, sans-serif; 
@@ -332,26 +331,42 @@
     gui.addColor(params, 'insideColor').name('Core Colour').onFinishChange(generateGalaxy);
     gui.addColor(params, 'outsideColor').name('Edge Colour').onFinishChange(generateGalaxy);
 
-    // CHANGE 2: DRAG INTERACTION LOGIC
+    // --- INTEGRATED INERTIA & INTERACTION ---
     let isDragging = false;
     let previousMouseX = 0;
+    let velocity = 0.0005; // Starting velocity
+    const autoSpeed = 0.0005;
+    const friction = 0.95; // Damping effect
 
     window.addEventListener('mousedown', () => { isDragging = true; });
     window.addEventListener('mouseup', () => { isDragging = false; });
+    
     window.addEventListener('mousemove', (e) => {
       if (isDragging && points) {
         const deltaX = e.clientX - previousMouseX;
-        points.rotation.y += deltaX * 0.005; 
+        velocity = deltaX * 0.002; // Map movement to velocity
+        points.rotation.y += velocity;
       }
       previousMouseX = e.clientX;
     });
 
-    // CHANGE 3: ANIMATION SYNC
     function animate() {
       requestAnimationFrame(animate);
-      if (points && !isDragging) {
-        points.rotation.y += 0.0005;
+      
+      if (points) {
+        if (!isDragging) {
+          // Slowly bleed off velocity
+          velocity *= friction;
+          
+          // If we slow down past the auto-spin, snap back to auto-spin
+          if (Math.abs(velocity) < autoSpeed) {
+            velocity = autoSpeed;
+          }
+          
+          points.rotation.y += velocity;
+        }
       }
+      
       renderer.render(scene, camera);
     }
     animate();
