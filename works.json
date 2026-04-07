@@ -6,6 +6,7 @@
     "media": [
       { "type": "video", "url": "assets/neonvid.mp4" },
       { "type": "image", "url": "assets/neon1.jpg" },
+      { "type": "image", "url": "assets/neon3.png" },
       { "type": "image", "url": "assets/neon2.jpg" }
     ]
   },
