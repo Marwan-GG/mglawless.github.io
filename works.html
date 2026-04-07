@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
 
   <style>
+    /* EXACT CSS FROM YOUR HOME PAGE */
     :root {
       --accent: #26c9df;
       --text-dim: #666;
@@ -19,11 +20,11 @@
       background: #000; 
       font-family: 'Inter', -apple-system, sans-serif; 
       color: white;
+      min-height: 100vh; /* Changed from 200vh to fit content */
       overflow-x: hidden;
-      line-height: 1.6;
     }
 
-    /* TRANSITION OVERLAY */
+    /* Transition Overlay */
     #transition-overlay {
       position: fixed;
       top: 0;
@@ -36,12 +37,12 @@
       transition: opacity 0.6s ease-in-out;
     }
 
-    /* NAVIGATION - MATCHING HOME EXACTLY */
+    /* Navigation - 1:1 Copy */
     .main-nav { 
       position: fixed; 
       top: 40px; 
       left: 40px; 
-      z-index: 100; 
+      z-index: 10; 
       display: flex; 
       flex-direction: column; 
       gap: 20px; 
@@ -54,7 +55,6 @@
       text-transform: uppercase; 
       border-left: 3px solid var(--accent); 
       padding-left: 15px; 
-      line-height: 1.2;
     }
 
     .nav-links { 
@@ -62,8 +62,7 @@
       flex-direction: column; 
       gap: 12px; 
       font-size: 0.85rem; 
-      color: var(--text-dim);
-      line-height: 1; /* Locked to Home page tightness */
+      color: var(--text-dim); 
     }
 
     .nav-links a { 
@@ -71,10 +70,7 @@
       color: inherit;
       cursor: pointer; 
       transition: 0.3s ease; 
-      width: fit-content;
-      height: 1.2rem; /* Forces identical vertical row size */
-      display: flex;
-      align-items: center;
+      width: fit-content; 
     }
 
     .nav-links a:hover { 
@@ -94,6 +90,7 @@
       width: fit-content;
     }
     .copy-link:hover { transform: translateX(5px); }
+    .copy-link .label { transition: opacity 0.3s ease, transform 0.3s ease; }
     .copy-link .status { 
       position: absolute; left: 0; opacity: 0; color: #4ade80; font-weight: bold;
       pointer-events: none; white-space: nowrap; transform: translateY(5px);
@@ -102,14 +99,21 @@
     .copy-link.copied .label { opacity: 0; transform: translateY(-5px); }
     .copy-link.copied .status { opacity: 1; transform: translateY(0); }
 
-    /* CONTENT AREA */
-    .content-container {
-      max-width: 50%; 
-      margin: 0 auto; 
-      padding: 120px 0; 
+    /* WORKS CONTENT ELEMENTS */
+    .content-wrapper { 
+      position: relative; 
+      z-index: 2; 
+      width: 100%; 
+      padding-top: 100px; /* Adjusted from 100vh */
+      padding-bottom: 100px;
+    }
+
+    .works-container {
+      max-width: 50%;
+      margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 150px; 
+      gap: 150px;
     }
 
     .project-entry { width: 100%; }
@@ -128,13 +132,12 @@
       border: 1px solid #1a1a1a;
       border-radius: 4px;
     }
-
     .project-description { color: #aaa; font-size: 1rem; line-height: 1.8; }
 
-    /* MOBILE SYNC */
+    /* Mobile Adjustments */
     @media (max-width: 768px) {
       .main-nav { top: auto; bottom: 100px; left: 20px; }
-      .content-container { max-width: 90%; padding-top: 60px; }
+      .works-container { max-width: 90%; }
     }
   </style>
 </head>
@@ -155,17 +158,19 @@
     </div>
   </nav>
 
-  <main class="content-container">
-    <section class="project-entry">
-      <h1 class="project-title">RISKY FISHING</h1>
-      <p class="project-tagline">Visual Design / 2026</p>
-      <div class="project-media-grid">
-        <img src="https://via.placeholder.com/800x450" alt="Work">
-        <img src="https://via.placeholder.com/800x450" alt="Work">
-      </div>
-      <p class="project-description">This container is now optimized to let the navigation sit undisturbed on the left.</p>
-    </section>
-  </main>
+  <div class="content-wrapper">
+    <main class="works-container">
+      <section class="project-entry">
+        <h1 class="project-title">RISKY FISHING</h1>
+        <p class="project-tagline">Visual Design / 2026</p>
+        <div class="project-media-grid">
+          <img src="https://via.placeholder.com/800x450" alt="Work">
+          <img src="https://via.placeholder.com/800x450" alt="Work">
+        </div>
+        <p class="project-description">Using the exact Home page skeleton to ensure zero alignment shifting.</p>
+      </section>
+    </main>
+  </div>
 
   <script>
     // FADE LOGIC
@@ -184,7 +189,7 @@
       });
     });
 
-    // EMAIL LOGIC
+    // COPY EMAIL LOGIC
     const emailBtn = document.getElementById('copyEmail');
     const myEmail = 'maroggebriel@gmail.com';
     emailBtn.addEventListener('click', () => {
@@ -194,6 +199,5 @@
       });
     });
   </script>
-
 </body>
 </html>
