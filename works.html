@@ -11,28 +11,40 @@
     :root {
       --accent: #26c9df;
       --text-dim: #666;
-      --bg: #000;
     }
     
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body { 
-      background: var(--bg); 
+      background: #000; 
       font-family: 'Inter', -apple-system, sans-serif; 
       color: white;
-      line-height: 1.6;
       overflow-x: hidden;
+      line-height: 1.6;
     }
 
-    /* Navigation - EXACT MATCH TO HOME GRID */
+    /* TRANSITION OVERLAY */
+    #transition-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      z-index: 9999;
+      pointer-events: none;
+      transition: opacity 0.6s ease-in-out;
+    }
+
+    /* Navigation - PIXEL PERFECT SYNC */
     .main-nav { 
       position: fixed; 
       top: 40px; 
       left: 40px; 
-      z-index: 100; 
+      z-index: 10; 
       display: flex; 
       flex-direction: column; 
-      gap: 20px; /* Space between Logo and Link list */
+      gap: 20px; 
     }
 
     .nav-logo { 
@@ -47,7 +59,7 @@
     .nav-links { 
       display: flex; 
       flex-direction: column; 
-      gap: 8px; /* Reduced gap to 8px to match the Home page tightness */
+      gap: 12px; 
       font-size: 0.85rem; 
       color: var(--text-dim); 
     }
@@ -55,6 +67,7 @@
     .nav-links a { 
       text-decoration: none;
       color: inherit;
+      cursor: pointer; 
       transition: 0.3s ease; 
       width: fit-content; 
     }
@@ -84,18 +97,16 @@
     .copy-link.copied .label { opacity: 0; transform: translateY(-5px); }
     .copy-link.copied .status { opacity: 1; transform: translateY(0); }
 
-    /* The 50% Centered Container */
+    /* Centered Container */
     .content-container {
       max-width: 50%; 
       margin: 0 auto; 
-      padding-top: 100px; /* Content starts clean without a page title */
-      padding-bottom: 120px;
+      padding: 100px 0; 
       display: flex;
       flex-direction: column;
       gap: 150px; 
     }
 
-    /* Project Elements */
     .project-entry { width: 100%; }
     .project-title { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 2.2rem; margin-bottom: 8px; }
     .project-tagline { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 35px; text-transform: uppercase; letter-spacing: 2px; }
@@ -106,17 +117,15 @@
       gap: 15px;
       margin-bottom: 25px;
     }
-    .project-media-grid img, .project-media-grid video {
+    .project-media-grid img {
       width: 100%;
       height: auto;
       border: 1px solid #1a1a1a;
       border-radius: 4px;
-      background: #0a0a0a;
     }
 
-    .project-description { color: #aaa; font-size: 1rem; max-width: 100%; line-height: 1.8; }
+    .project-description { color: #aaa; font-size: 1rem; line-height: 1.8; }
 
-    /* Mobile Sync */
     @media (max-width: 768px) {
       .main-nav { top: auto; bottom: 100px; left: 20px; }
       .content-container { max-width: 90%; padding-top: 60px; }
@@ -125,12 +134,14 @@
 </head>
 <body>
 
+  <div id="transition-overlay"></div>
+
   <nav class="main-nav">
     <div class="nav-logo">MG. Lawless</div>
     <div class="nav-links">
-      <a href="./">Home</a>
-      <a href="works.html" style="color: #fff;">Works</a>
-      <a href="blog.html">Blog</a>
+      <a href="./" class="transition-link">Home</a>
+      <a href="works.html" class="transition-link" style="color: #fff;">Works</a>
+      <a href="blog.html" class="transition-link">Blog</a>
       <div class="copy-link" id="copyEmail">
         <span class="label">Copy Email</span>
         <span class="status">Email Copied ✓</span>
@@ -141,26 +152,51 @@
   <main class="content-container">
     <section class="project-entry">
       <h1 class="project-title">RISKY FISHING</h1>
-      <p class="project-tagline">Game Design / Development</p>
+      <p class="project-tagline">Visual Design / 2026</p>
       <div class="project-media-grid">
         <img src="https://via.placeholder.com/800x450" alt="Work">
         <img src="https://via.placeholder.com/800x450" alt="Work">
       </div>
-      <p class="project-description">Your description for the fishing project goes here.</p>
+      <p class="project-description">This description will fade in beautifully along with the rest of the page.</p>
     </section>
   </main>
 
   <script>
-    const emailBtn = document.getElementById('copyEmail');
-    const myEmail = 'maroggebriel@gmail.com';
-    if (emailBtn) {
-      emailBtn.addEventListener('click', () => {
-        navigator.clipboard.writeText(myEmail).then(() => {
-          emailBtn.classList.add('copied');
-          setTimeout(() => emailBtn.classList.remove('copied'), 2000);
+    // FADE SCRIPT
+    window.addEventListener('DOMContentLoaded', () => {
+      const overlay = document.getElementById('transition-overlay');
+      
+      // Fade out the black overlay on load
+      setTimeout(() => {
+        overlay.style.opacity = '0';
+      }, 100);
+
+      // Intercept link clicks to fade back in
+      document.querySelectorAll('.transition-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+          // If clicking the same page, don't trigger fade out
+          if (link.href === window.location.href) return;
+
+          e.preventDefault();
+          const target = link.href;
+          overlay.style.opacity = '1';
+
+          setTimeout(() => {
+            window.location.href = target;
+          }, 600); // Matches the 0.6s CSS transition
         });
       });
-    }
+    });
+
+    // COPY EMAIL LOGIC
+    const emailBtn = document.getElementById('copyEmail');
+    const myEmail = 'maroggebriel@gmail.com';
+    emailBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(myEmail).then(() => {
+        emailBtn.classList.add('copied');
+        setTimeout(() => emailBtn.classList.remove('copied'), 2000);
+      });
+    });
   </script>
 
 </body>
