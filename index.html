@@ -32,14 +32,14 @@
       height: 100%;
       background: #000;
       z-index: 9999;
-      pointer-events: none; /* Allows clicks to pass through when transparent */
+      pointer-events: none;
       transition: opacity 0.6s ease-in-out;
-      opacity: 1; /* Starts dark */
+      opacity: 1;
     }
 
     canvas { display: block; position: fixed; top: 0; left: 0; z-index: 1; outline: none; }
     
-    /* --- 1. THE LOGO: FIXED & INDEPENDENT (DESKTOP) --- */
+    /* --- SIDEBAR --- */
     .main-sidebar { 
       position: fixed; 
       top: 40px; 
@@ -96,7 +96,7 @@
     .copy-link.copied .label { opacity: 0; transform: translateY(-5px); }
     .copy-link.copied .status { opacity: 1; transform: translateY(0); }
 
-    /* --- 2. THE CONSOLE: CENTERED --- */
+    /* --- CONSOLE LAYER --- */
     .console-fixed-layer {
       position: fixed;
       top: 40px; 
@@ -110,6 +110,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      transition: background 0.5s ease;
     }
 
     .console-text-container {
@@ -134,18 +135,25 @@
     }
     @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
+    /* Updated Initialize Text */
     #prompt-click {
       display: inline-block;
-      font-size: 0.85rem;
+      font-size: 1.2rem; 
       color: #fff;
-      margin-top: 20px;
+      margin-top: 25px;
       opacity: 0;
       cursor: pointer;
       pointer-events: auto;
-      transition: opacity 0.5s ease, transform 0.3s ease;
-      letter-spacing: 4px;
+      transition: opacity 0.5s ease, transform 0.3s ease, text-shadow 0.3s ease;
+      letter-spacing: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: bold;
+      text-transform: uppercase;
     }
-    #prompt-click.visible { opacity: 0.5; }
+    #prompt-click.visible { 
+      opacity: 0.7; 
+      text-shadow: 0 0 15px var(--accent);
+    }
     #prompt-click:hover { opacity: 1; transform: scale(1.05); }
 
     #dialogue-container {
@@ -192,46 +200,45 @@
       gap: 15px;
     }
 
-    .social-links {
-      display: flex; gap: 20px; align-items: center;
-    }
-
-    .social-icon {
-      width: 24px; height: 24px; stroke: #444; fill: none; transition: 0.3s;
-    }
+    .social-links { display: flex; gap: 20px; align-items: center; }
+    .social-icon { width: 24px; height: 24px; stroke: #444; fill: none; transition: 0.3s; }
     .social-links a:hover .social-icon { stroke: #fff; transform: translateY(-3px); }
-
-    .footer-text {
-      font-size: 0.65rem; color: #444; letter-spacing: 2px; text-transform: uppercase;
-    }
+    .footer-text { font-size: 0.65rem; color: #444; letter-spacing: 2px; text-transform: uppercase; }
 
     /* --- MOBILE SPECIFIC RULES --- */
     @media (max-width: 1100px) {
       .main-sidebar { 
         position: relative; 
-        top: 0; 
-        left: 0; 
-        padding: 40px; 
-        width: 100%; 
-        z-index: 20;
+        top: 0; left: 0; padding: 40px; width: 100%; 
       }
 
       .console-fixed-layer { 
-        width: 90%; 
-        top: calc(50% + 40px); 
+        width: 100%; 
+        top: 55%; 
         transform: translate(-50%, -50%); 
+        padding: 60px 20px;
+        /* Feathered backdrop for readability */
+        background: radial-gradient(
+          circle at center, 
+          rgba(0, 0, 0, 0.85) 0%, 
+          rgba(0, 0, 0, 0.4) 60%, 
+          transparent 100%
+        );
       } 
 
       .console-text-container { font-size: 1.4rem; }
 
+      /* Bigger GUI for touch */
       .lil-gui {
+        --width: 180px !important;
+        --widget-height: 40px !important;
+        --font-size: 13px !important;
         top: auto !important;
-        bottom: 100px !important; 
-        right: 10px !important;
+        bottom: 120px !important; 
+        right: 20px !important;
         left: auto !important;
-        width: 140px !important;
-        font-size: 10px !important;
       }
+      .lil-gui .controller.color .widget { height: 35px !important; }
     }
   </style>
 </head>
@@ -353,17 +360,12 @@
 
     window.addEventListener('DOMContentLoaded', () => {
       const overlay = document.getElementById('transition-overlay');
-      
-      // Force overlay to fade out on load
       setTimeout(() => { overlay.style.opacity = '0'; }, 100);
 
-      // Handle the "Back" button or cached state reset
       window.onpageshow = function(event) {
           overlay.style.opacity = '0';
           overlay.style.display = 'none'; 
-          setTimeout(() => {
-              overlay.style.display = 'block';
-          }, 100);
+          setTimeout(() => { overlay.style.display = 'block'; }, 100);
       };
 
       document.querySelectorAll('.transition-link').forEach(link => {
@@ -504,7 +506,6 @@
     const autoSpeed = 0.0005;
     const friction = 0.95; 
 
-    // MOUSE
     renderer.domElement.addEventListener('mousedown', () => { isDragging = true; });
     window.addEventListener('mouseup', () => { isDragging = false; });
     window.addEventListener('mousemove', (e) => {
@@ -516,7 +517,6 @@
       previousMouseX = e.clientX;
     });
 
-    // TOUCH (MOBILE)
     renderer.domElement.addEventListener('touchstart', (e) => {
       isDragging = true;
       previousMouseX = e.touches[0].clientX;
