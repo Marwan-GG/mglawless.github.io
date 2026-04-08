@@ -26,8 +26,10 @@
 
     #transition-overlay { 
       position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-      background: #000; z-index: 9999; pointer-events: none; 
+      background: #000; z-index: 9999; 
+      pointer-events: none; /* CRITICAL: Allows clicks through when transparent */
       transition: opacity 0.6s ease-in-out; 
+      opacity: 1; /* Starts dark */
     }
 
     /* --- SIDEBAR NAVIGATION --- */
@@ -208,7 +210,17 @@
       const lightbox = document.getElementById('lightbox');
       const lightboxImg = lightbox.querySelector('img');
 
+      // Force overlay to fade out on load
       setTimeout(() => { overlay.style.opacity = '0'; }, 100);
+
+      // Specific fix for browser back/forward cache freezes
+      window.onpageshow = function(event) {
+          overlay.style.opacity = '0';
+          overlay.style.display = 'none'; 
+          setTimeout(() => {
+              overlay.style.display = 'block';
+          }, 100);
+      };
 
       window.openLightbox = (url) => {
         lightboxImg.src = url;
@@ -230,7 +242,6 @@
               <div class="project-media-grid">
                 ${project.media.map(item => {
                   if(item.type === 'video' && item.url.includes('youtube.com')) {
-                    // This handles BOTH embed and watch URLs
                     const videoId = item.url.includes('embed/') 
                       ? item.url.split('embed/')[1].split('?')[0] 
                       : item.url.split('v=')[1].split('&')[0];
@@ -271,8 +282,15 @@
         link.addEventListener('click', (e) => {
           if (link.href === window.location.href) return;
           e.preventDefault();
+          const target = link.href;
           overlay.style.opacity = '1';
-          setTimeout(() => { window.location.href = link.href; }, 600);
+          
+          // Safety Timeout: if navigation fails, fade back in so the screen isn't stuck black
+          setTimeout(() => {
+            overlay.style.opacity = '0';
+          }, 2000);
+
+          setTimeout(() => { window.location.href = target; }, 600);
         });
       });
     });
