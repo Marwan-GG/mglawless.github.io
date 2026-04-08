@@ -27,9 +27,9 @@
     #transition-overlay { 
       position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
       background: #000; z-index: 9999; 
-      pointer-events: none; /* CRITICAL: Allows clicks through when transparent */
+      pointer-events: none; 
       transition: opacity 0.6s ease-in-out; 
-      opacity: 1; /* Starts dark */
+      opacity: 1; 
     }
 
     /* --- SIDEBAR NAVIGATION --- */
@@ -97,6 +97,7 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
+      transition: opacity 0.4s ease;
     }
 
     .custom-play-btn {
@@ -118,7 +119,7 @@
     .video-cover:hover .custom-play-btn { background: var(--accent); transform: scale(1.1); }
     .video-cover:hover .custom-play-btn::after { border-left-color: black; }
 
-    iframe { width: 100%; height: 100%; border: none; }
+    iframe, video { width: 100%; height: 100%; border: none; object-fit: cover; }
 
     .project-description { color: #aaa; font-size: 1rem; line-height: 1.8; max-width: 750px; }
 
@@ -194,15 +195,26 @@
   </footer>
 
   <script>
-    // Logic to switch from cover image to actual video
+    // YouTube Playback Logic
     function playVideo(coverElement) {
       const wrapper = coverElement.parentElement;
       const iframe = wrapper.querySelector('iframe');
       const currentSrc = iframe.getAttribute('src');
       
-      // Auto-play the video when switching
       iframe.setAttribute('src', currentSrc + "&autoplay=1");
-      coverElement.style.display = 'none';
+      coverElement.style.opacity = '0';
+      setTimeout(() => { coverElement.style.display = 'none'; }, 400);
+    }
+
+    // Local Video Playback Logic
+    function playLocalVideo(coverElement) {
+      const wrapper = coverElement.parentElement;
+      const video = wrapper.querySelector('video');
+      
+      video.muted = false; // Unmute on play
+      video.play();
+      coverElement.style.opacity = '0';
+      setTimeout(() => { coverElement.style.display = 'none'; }, 400);
     }
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -210,16 +222,12 @@
       const lightbox = document.getElementById('lightbox');
       const lightboxImg = lightbox.querySelector('img');
 
-      // Force overlay to fade out on load
       setTimeout(() => { overlay.style.opacity = '0'; }, 100);
 
-      // Specific fix for browser back/forward cache freezes
       window.onpageshow = function(event) {
           overlay.style.opacity = '0';
           overlay.style.display = 'none'; 
-          setTimeout(() => {
-              overlay.style.display = 'block';
-          }, 100);
+          setTimeout(() => { overlay.style.display = 'block'; }, 100);
       };
 
       window.openLightbox = (url) => {
@@ -241,6 +249,7 @@
               <p class="project-tagline">${project.tagline}</p>
               <div class="project-media-grid">
                 ${project.media.map(item => {
+                  // IF YOUTUBE
                   if(item.type === 'video' && item.url.includes('youtube.com')) {
                     const videoId = item.url.includes('embed/') 
                       ? item.url.split('embed/')[1].split('?')[0] 
@@ -257,16 +266,27 @@
                         <iframe src="${cleanUrl}" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                       </div>`;
                   }
+                  
+                  // IF LOCAL VIDEO (MP4)
                   if(item.type === 'video') {
-                    return `<video src="${item.url}" poster="${item.poster || ''}" controls loop muted playsinline style="width:100%; border-radius:4px;"></video>`;
+                    return `
+                      <div class="video-wrapper">
+                        <div class="video-cover" style="background-image: url('${item.poster || ''}')" onclick="playLocalVideo(this)">
+                          <div class="custom-play-btn"></div>
+                        </div>
+                        <video src="${item.url}" loop muted playsinline></video>
+                      </div>`;
                   }
+                  
+                  // IF IMAGE
                   return `<img src="${item.url}" alt="${project.title}" onclick="openLightbox('${item.url}')">`;
                 }).join('')}
               </div>
               ${project.description ? `<p class="project-description">${project.description}</p>` : ''}
             </section>
           `).join('');
-        });
+        })
+        .catch(err => console.error("Error loading works:", err));
 
       // Email Copy Logic
       const emailBtn = document.getElementById('copyEmail');
@@ -284,12 +304,6 @@
           e.preventDefault();
           const target = link.href;
           overlay.style.opacity = '1';
-          
-          // Safety Timeout: if navigation fails, fade back in so the screen isn't stuck black
-          setTimeout(() => {
-            overlay.style.opacity = '0';
-          }, 2000);
-
           setTimeout(() => { window.location.href = target; }, 600);
         });
       });
