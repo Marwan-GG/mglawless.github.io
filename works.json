@@ -1,5 +1,21 @@
 [
   {
+    "title": "Environment Studies",
+    "tagline": "A collection of Environment Studies. Experimenting with Lighting, Camera, Post-Processing, Shaders, etc.",
+    "media": [
+      { "type": "video", "url": "assets/studyvid1.mp4", "poster": "assets/study4.png" },
+      { "type": "video", "url": "assets/studyvid2.mp4", "poster": "assets/studythumb1.png" },
+      { "type": "image", "url": "assets/study1.png" },
+      { "type": "image", "url": "assets/study2.png" },
+      { "type": "image", "url": "assets/study3.png" },
+      { "type": "image", "url": "assets/study4.png" },
+      { "type": "image", "url": "assets/study5.png" },
+      { "type": "image", "url": "assets/study6.png" },
+      { "type": "image", "url": "assets/study7.png" },
+      { "type": "image", "url": "assets/study8.png" }
+    ]
+  },
+  {
     "title": "NEON OVERDRIVE",
     "tagline": "Anti-Gravity Racing Game // Environment, Gameplay Design, Art Direction, Level Design, UI // 2024",
     "description": "Neon Overdrive is a high octane, anti-gravity racing game that takes place in the near-future cyberpunk city of Cloud Medina. This game premiered in an exhibition in the German University in Cairo. Original Soundtrack by Ahmed Fouad (MoozMusic)",
