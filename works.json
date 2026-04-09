@@ -30,7 +30,7 @@
     "title": "Risky Fishing",
     "tagline": "Fishing collector game with an exciting twist. // Environment, Assets, Gameplay Design, UI, Art Direction, Sound Direction,",
     "media": [
-      { "type": "video", "url": "https://www.youtube.com/embed/bK2L-pG-xy8?si=Kt8SS2RTu8RMj-xB" },
+      { "type": "video", "url": "https://www.youtube.com/embed/bK2L-pG-xy8?si=Kt8SS2RTu8RMj-xB", "poster": "rf1.png" },
       { "type": "image", "url": "assets/rf1.png" },
       { "type": "image", "url": "assets/rf2.png" },
       { "type": "image", "url": "assets/rf3.png" },
