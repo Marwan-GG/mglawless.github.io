@@ -136,10 +136,9 @@
     }
     @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-    /* Updated Initialize Text with Blinking Pulse */
     #prompt-click {
       display: inline-block;
-      font-size: 1.5rem; /* Increased size */
+      font-size: 1.5rem; 
       color: #fff;
       margin-top: 25px;
       opacity: 0;
@@ -155,7 +154,7 @@
     #prompt-click.visible { 
       opacity: 0.8; 
       text-shadow: 0 0 15px var(--accent);
-      animation: breathe 2s infinite ease-in-out; /* Blinking/Breathing animation */
+      animation: breathe 2s infinite ease-in-out; 
     }
     
     @keyframes breathe {
@@ -214,7 +213,7 @@
     .social-links a:hover .social-icon { stroke: #fff; transform: translateY(-3px); }
     .footer-text { font-size: 0.65rem; color: #444; letter-spacing: 2px; text-transform: uppercase; }
 
-    /* --- MOBILE SPECIFIC RULES --- */
+    /* --- MOBILE REFINEMENT --- */
     @media (max-width: 1100px) {
       .main-sidebar { 
         position: relative; 
@@ -222,28 +221,22 @@
       }
 
       .console-fixed-layer { 
-        width: 90%; 
+        width: 100%; 
         top: 50%; 
         transform: translate(-50%, -50%); 
-        padding: 40px 20px;
-        border-radius: 20px;
-        /* Fixed opaque box: Using blur and subtle alpha for better blending */
-        background: rgba(0, 0, 0, 0.4);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        box-shadow: 0 0 40px rgba(0,0,0,0.5);
+        padding: 20px;
+        /* Removed the heavy box. Using a subtle glow/blur around the text area only */
+        background: radial-gradient(circle, rgba(0,0,0,0.6) 0%, transparent 70%);
+        backdrop-filter: none; 
       } 
 
       .console-text-container { font-size: 1.4rem; }
 
       .lil-gui {
-        --width: 180px !important;
-        --widget-height: 40px !important;
-        --font-size: 13px !important;
+        --width: 160px !important;
         top: auto !important;
-        bottom: 120px !important; 
-        right: 20px !important;
-        left: auto !important;
+        bottom: 100px !important; 
+        right: 15px !important;
       }
     }
   </style>
@@ -510,7 +503,7 @@
     let previousMouseX = 0;
     let velocity = 0.0005; 
     const autoSpeed = 0.0005;
-    const friction = 0.985; // Increased inertia (previously 0.95)
+    const friction = 0.985; 
 
     renderer.domElement.addEventListener('mousedown', () => { isDragging = true; });
     window.addEventListener('mouseup', () => { isDragging = false; });
