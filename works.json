@@ -27,6 +27,19 @@
     ]
   },
   {
+    "title": "SLINKO",
+    "tagline": "​​​​​​​Fling elemental slimes, trigger wild fusions, and solve tight physics puzzles. Chaos included. // Environment, UI, Gameplay Design, Art Direction, Level Design, Sound Design and Direction",
+    "media": [
+      { "type": "image", "url": "assets/sl1.png" },
+      { "type": "image", "url": "assets/sl2.png" },
+      { "type": "image", "url": "assets/sl3.png" },
+      { "type": "image", "url": "assets/sl4.jpeg" },
+      { "type": "image", "url": "assets/sl5.png" },
+      { "type": "image", "url": "assets/sl6.jpeg" },
+      { "type": "image", "url": "assets/sl7.png" }
+    ]
+  },
+  {
     "title": "Risky Fishing",
     "tagline": "Fishing collector game with an exciting twist. // Environment, Assets, Gameplay Design, UI, Art Direction, Sound Direction,",
     "media": [
@@ -56,6 +69,16 @@
       { "type": "image", "url": "assets/btb4.png" },
       { "type": "image", "url": "assets/btb5.png" },
       { "type": "image", "url": "assets/btb6.png" }
+    ]
+  },
+  {
+    "title": "Here and Then",
+    "tagline": "A puzzle adventure game where you shift between time to uncover a mystery that's yet to happen. // Environment, Level and Puzzle Design, Gameplay Design, UI, Art Direction, Sound Direction,",
+    "media": [
+      { "type": "image", "url": "assets/time.gif" },
+      { "type": "image", "url": "assets/time1.png" },
+      { "type": "image", "url": "assets/time2.png" },
+      { "type": "image", "url": "assets/time3.png" }
     ]
   },
   {
