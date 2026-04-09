@@ -34,6 +34,15 @@
     ]
   },
   {
+    "title": "Cowboy Cats",
+    "tagline": "Pixel Art Concept",
+    "media": [
+      { "type": "image", "url": "assets/cc1.png" },
+      { "type": "image", "url": "assets/cc2.png" },
+      { "type": "image", "url": "assets/cc3.png" }
+    ]
+  },
+  {
     "title": "Jimmy's Office",
     "tagline": "Puzzle Platformer // Environmemt // Level Design // Assets",
     "media": [
