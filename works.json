@@ -59,6 +59,17 @@
     ]
   },
   {
+    "title": "Ard",
+    "tagline": "Endless Survival - Vampire Survivor Style Game // Environment, Level Design, Assets",
+    "media": [
+      { "type": "image", "url": "assets/ard1.png" },
+      { "type": "image", "url": "assets/ard5.png" },
+      { "type": "image", "url": "assets/ard2.png" },
+      { "type": "image", "url": "assets/ard3.png" },
+      { "type": "image", "url": "assets/ard4.png" }
+    ]
+  },
+  {
     "title": "PuppyCat's Quest",
     "tagline": "Speedrun Platforming Game // Environment, Animation, Gameplay Design, Assets, Illustration, UI, Development, Level Design // 2023",
     "description": "PuppyCat's Quest is a solo game which was inspired by a Netflix original: Bee and PuppyCat. You control PuppyCat and make it through a peaceful environment in this speed-run platformer. This game premiered in an exhibition at the German University in Cairo.", 
