@@ -34,6 +34,16 @@
     ]
   },
   {
+    "title": "Jimmy's Office",
+    "tagline": "Puzzle Platformer // Environmemt // Level Design // Assets",
+    "media": [
+      { "type": "image", "url": "assets/jim1.png" },
+      { "type": "image", "url": "assets/jim2.jpg" },
+      { "type": "image", "url": "assets/jim3.png" },
+      { "type": "image", "url": "assets/jim4.gif" }
+    ]
+  },
+  {
     "title": "Assortment",
     "tagline": "An assortment of assets and works",
     "media": [
