@@ -10,7 +10,7 @@
   <style>
     :root { 
       --accent: #26c9df; 
-      --text-dim: #666; 
+      --text-dim: #999; /* Brightened from #666 */
       --nav-width: 250px; 
     }
     
@@ -66,16 +66,15 @@
 
     .works-header { margin-bottom: 80px; }
     .works-title { font-family: 'JetBrains Mono', monospace; font-size: 3rem; margin-bottom: 15px; text-transform: uppercase; }
-    .works-subtitle { color: var(--text-dim); font-size: 1.1rem; max-width: 600px; line-height: 1.6; }
+    .works-subtitle { color: #bbb; font-size: 1.1rem; max-width: 600px; line-height: 1.6; }
 
-    /* --- UPDATED TERMINAL INDEX --- */
+    /* --- TERMINAL INDEX --- */
     #index-container {
       position: relative; 
       width: 100%; 
       height: 350px;
-      background: linear-gradient(90deg, #050505 0%, rgba(10,10,10,0.4) 100%); 
-      border-top: 1px solid #111;
-      border-bottom: 1px solid #111;
+      background: linear-gradient(90deg, #050505 0%, rgba(15,15,15,0.4) 100%); 
+      border: 1px solid #1a1a1a;
       margin-top: 40px; 
       overflow: hidden;
       display: flex;
@@ -88,33 +87,30 @@
       padding: 40px; 
       display: flex;
       flex-direction: column;
-      /* Masks the bottom of the list for a "fading into data" look */
-      -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
-      mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
     }
 
     .index-label { 
       font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; 
       letter-spacing: 5px; color: var(--accent); margin-bottom: 30px; text-transform: uppercase; 
-      opacity: 0.8;
     }
 
     #auto-index { 
       display: flex;
       flex-direction: column;
-      flex-wrap: wrap; /* Allows spilling into next column if too long */
+      flex-wrap: wrap; 
       max-height: 220px;
       gap: 12px 60px;
       pointer-events: auto;
       counter-reset: item-counter;
       overflow-y: auto;
-      scrollbar-width: none;
+      scrollbar-width: none; /* Hides scrollbar in Firefox */
     }
+    /* Hides scrollbar in Chrome/Safari */
     #auto-index::-webkit-scrollbar { display: none; }
 
     .index-item { 
       font-family: 'JetBrains Mono', monospace;
-      color: #666; 
+      color: #aaa; /* Brightened from #666 */
       text-decoration: none; 
       font-size: 0.8rem; 
       transition: 0.2s ease;
@@ -124,14 +120,13 @@
       align-items: center;
     }
 
-    /* System ID prefixes */
     .index-item::before {
       counter-increment: item-counter;
       content: "ID_0" counter(item-counter);
       font-size: 0.6rem;
       color: var(--accent);
       margin-right: 15px;
-      opacity: 0.4;
+      opacity: 0.6;
     }
 
     .index-item:hover { 
@@ -142,26 +137,14 @@
     #three-canvas-container { 
       width: 40%; 
       height: 100%; 
-      border-left: 1px solid #111;
+      border-left: 1px solid #1a1a1a;
       z-index: 1; 
     }
-
-    /* --- BACK TO TOP --- */
-    #back-to-top {
-      position: fixed; bottom: 40px; right: 40px; width: 45px; height: 45px;
-      background: rgba(0,0,0,0.8); border: 1px solid var(--accent);
-      color: var(--accent); border-radius: 50%; display: flex;
-      align-items: center; justify-content: center; cursor: pointer;
-      opacity: 0; visibility: hidden; transition: 0.4s ease; z-index: 100;
-      text-decoration: none; font-family: 'JetBrains Mono', monospace;
-    }
-    #back-to-top.visible { opacity: 1; visibility: visible; }
-    #back-to-top:hover { background: var(--accent); color: #000; transform: translateY(-5px); }
 
     .project-list-wrapper { display: flex; flex-direction: column; gap: 150px; }
     .project-entry { width: 100%; scroll-margin-top: 100px; }
     .project-title { font-family: 'JetBrains Mono', monospace; font-size: 2.2rem; margin-bottom: 8px; text-transform: uppercase; }
-    .project-tagline { color: var(--text-dim); font-size: 0.8rem; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 2px; }
+    .project-tagline { color: #888; font-size: 0.8rem; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 2px; }
     
     .project-media-grid { 
       display: grid;
@@ -191,11 +174,9 @@
       object-fit: cover; display: block;
       aspect-ratio: 16 / 11; 
       cursor: zoom-in;
-      image-rendering: -webkit-optimize-contrast; 
     }
 
-    .project-media-grid img:hover, 
-    .project-media-grid .video-wrapper:hover { 
+    .project-media-grid img:hover { 
       z-index: 10; transform: scale(1.02); 
     }
 
@@ -204,26 +185,38 @@
       .project-media-grid .video-wrapper { grid-column: span 8; } 
     }
 
-    /* --- VIDEO PLAYER --- */
-    .video-wrapper { position: relative; }
+    /* --- VIDEO PLAYER & HOVER FIX --- */
+    .video-wrapper { position: relative; cursor: pointer; }
     .video-cover {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       background-size: cover; background-position: center;
       z-index: 5; display: flex; align-items: center; justify-content: center;
-      cursor: pointer;
+      transition: opacity 0.4s ease;
     }
     .custom-play-btn {
       width: 60px; height: 60px; background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(5px); border: 1px solid var(--accent);
+      backdrop-filter: blur(5px); border: 1px solid #fff;
       border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s ease;
     }
     .custom-play-btn::after {
       content: ''; border-top: 10px solid transparent; border-bottom: 10px solid transparent;
       border-left: 18px solid white; margin-left: 5px;
     }
+
+    /* FIX: Glow effect on hover */
+    .video-wrapper:hover .custom-play-btn {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px rgba(38, 201, 223, 0.4);
+      transform: scale(1.1);
+    }
+    .video-wrapper:hover .custom-play-btn::after {
+      border-left-color: var(--accent);
+    }
+
     iframe, video { width: 100%; height: 100%; object-fit: cover; border: none; }
 
-    .project-description { color: #aaa; font-size: 1rem; line-height: 1.8; max-width: 750px; }
+    .project-description { color: #bbb; font-size: 1rem; line-height: 1.8; max-width: 750px; }
 
     /* --- LIGHTBOX & ARROWS --- */
     #lightbox {
@@ -244,7 +237,16 @@
     .arrow-left { left: 20px; }
     .arrow-right { right: 20px; }
 
-    /* --- FOOTER --- */
+    #back-to-top {
+      position: fixed; bottom: 40px; right: 40px; width: 45px; height: 45px;
+      background: rgba(0,0,0,0.8); border: 1px solid var(--accent);
+      color: var(--accent); border-radius: 50%; display: flex;
+      align-items: center; justify-content: center; cursor: pointer;
+      opacity: 0; visibility: hidden; transition: 0.4s ease; z-index: 100;
+      text-decoration: none; font-family: 'JetBrains Mono', monospace;
+    }
+    #back-to-top.visible { opacity: 1; visibility: visible; }
+
     footer { position: fixed; bottom: 0; left: 0; width: 100%; z-index: 10; padding: 30px; text-align: center; pointer-events: none; }
     .footer-content { pointer-events: auto; display: flex; flex-direction: column; align-items: center; gap: 15px; }
     .social-links { display: flex; gap: 20px; }
@@ -254,7 +256,7 @@
 
     @media (max-width: 1100px) {
       #index-container { flex-direction: column; height: auto; }
-      #three-canvas-container { width: 100%; height: 200px; border-left: none; border-top: 1px solid #111; }
+      #three-canvas-container { width: 100%; height: 200px; border-left: none; border-top: 1px solid #1a1a1a; }
       .main-nav { position: relative; top: 0; left: 0; padding: 40px; width: 100%; }
       .works-container { margin: 0 auto; max-width: 90%; }
       .project-media-grid > * { grid-column: span 12 !important; }
@@ -329,7 +331,6 @@
     let allMediaUrls = [];
     let currentMediaIndex = 0;
 
-    // --- UPDATED THREE.JS: THE DATA CORE ---
     function initIndexParticles() {
       const container = document.getElementById('three-canvas-container');
       const scene = new THREE.Scene();
@@ -338,21 +339,19 @@
       renderer.setSize(container.offsetWidth, container.offsetHeight);
       container.appendChild(renderer.domElement);
 
-      // Create a wireframe Sphere (The Core)
       const geometry = new THREE.IcosahedronGeometry(140, 1);
       const wireframe = new THREE.WireframeGeometry(geometry);
-      const lineMat = new THREE.LineBasicMaterial({ color: 0x26c9df, transparent: true, opacity: 0.15 });
+      const lineMat = new THREE.LineBasicMaterial({ color: 0x26c9df, transparent: true, opacity: 0.2 });
       const core = new THREE.LineSegments(wireframe, lineMat);
       scene.add(core);
 
-      // Add a cloud of orbiting data points
       const starGeo = new THREE.BufferGeometry();
       const starPos = [];
       for(let i=0; i<300; i++) {
         starPos.push(THREE.MathUtils.randFloatSpread(400), THREE.MathUtils.randFloatSpread(400), THREE.MathUtils.randFloatSpread(400));
       }
       starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starPos, 3));
-      const starMat = new THREE.PointsMaterial({ color: 0x26c9df, size: 1.5, transparent: true, opacity: 0.4 });
+      const starMat = new THREE.PointsMaterial({ color: 0x26c9df, size: 1.5, transparent: true, opacity: 0.5 });
       const stars = new THREE.Points(starGeo, starMat);
       scene.add(stars);
 
@@ -450,8 +449,8 @@
                   if(item.type === 'video' && item.url.includes('youtube.com')) {
                     const videoId = item.url.includes('embed/') ? item.url.split('embed/')[1].split('?')[0] : item.url.split('v=')[1].split('&')[0];
                     return `
-                      <div class="video-wrapper">
-                        <div class="video-cover" style="background-image: url('https://img.youtube.com/vi/${videoId}/maxresdefault.jpg')" onclick="playVideo(this)">
+                      <div class="video-wrapper" onclick="playVideo(this.querySelector('.video-cover'))">
+                        <div class="video-cover" style="background-image: url('https://img.youtube.com/vi/${videoId}/maxresdefault.jpg')">
                           <div class="custom-play-btn"></div>
                         </div>
                         <iframe src="https://www.youtube.com/embed/${videoId}?modestbranding=1&rel=0&color=white" allow="autoplay; encrypted-media" allowfullscreen></iframe>
@@ -459,8 +458,8 @@
                   }
                   if(item.type === 'video') {
                     return `
-                      <div class="video-wrapper">
-                        <div class="video-cover" style="background-image: url('${item.poster || ''}')" onclick="playLocalVideo(this)">
+                      <div class="video-wrapper" onclick="playLocalVideo(this.querySelector('.video-cover'))">
+                        <div class="video-cover" style="background-image: url('${item.poster || ''}')">
                           <div class="custom-play-btn"></div>
                         </div>
                         <video src="${item.url}" loop muted playsinline></video>
