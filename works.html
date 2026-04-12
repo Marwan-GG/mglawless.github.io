@@ -123,11 +123,13 @@
 
     .index-item::before {
       counter-increment: item-counter;
-      content: "ID_0" counter(item-counter);
+      content: "ID_" counter(item-counter, decimal-leading-zero);
       font-size: 0.6rem;
       color: var(--accent);
       margin-right: 15px;
       opacity: 0.6;
+      display: inline-block;
+      width: 45px;
     }
 
     .index-item:hover { 
