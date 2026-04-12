@@ -34,7 +34,7 @@
       opacity: 1; 
     }
 
-    /* --- SIDEBAR NAVIGATION --- */
+    /* --- NAVIGATION --- */
     .main-nav { 
       position: fixed; top: 40px; left: 40px; z-index: 10; 
       display: flex; flex-direction: column; gap: 20px; width: var(--nav-width);
@@ -52,7 +52,6 @@
       height: 1.2rem; display: flex; align-items: center;
       transition: color 0.4s ease-in-out, transform 0.3s ease; width: fit-content;
     }
-    .copy-link:hover { transform: translateX(5px); }
     .copy-link .status { 
       position: absolute; left: 0; opacity: 0; color: #4ade80; font-weight: bold;
       pointer-events: none; white-space: nowrap; transform: translateY(5px);
@@ -61,7 +60,7 @@
     .copy-link.copied .label { opacity: 0; transform: translateY(-5px); }
     .copy-link.copied .status { opacity: 1; transform: translateY(0); }
 
-    /* --- CONTENT AREA --- */
+    /* --- CONTENT --- */
     .content-wrapper { position: relative; z-index: 2; width: 100%; padding-top: 100px; padding-bottom: 200px; }
     .works-container { max-width: 1000px; margin-left: calc(var(--nav-width) + 100px); margin-right: 60px; }
 
@@ -69,7 +68,7 @@
     .works-title { font-family: 'JetBrains Mono', monospace; font-size: 3rem; margin-bottom: 15px; text-transform: uppercase; }
     .works-subtitle { color: #bbb; font-size: 1.1rem; max-width: 600px; line-height: 1.6; }
 
-    /* --- TERMINAL INDEX --- */
+    /* --- INDEX & THREEJS CONTAINER --- */
     #index-container {
       position: relative; 
       width: 100%; 
@@ -77,17 +76,15 @@
       background: linear-gradient(90deg, #050505 0%, rgba(15,15,15,0.4) 100%); 
       border: 1px solid #1a1a1a;
       margin-top: 40px; 
-      overflow: hidden;
       display: flex;
     }
 
     #index-ui { 
       flex: 1;
-      position: relative;
-      z-index: 2; 
       padding: 40px; 
       display: flex;
       flex-direction: column;
+      z-index: 2;
     }
 
     .index-label { 
@@ -101,8 +98,6 @@
       flex-wrap: wrap; 
       max-height: 220px;
       gap: 12px 60px;
-      pointer-events: auto;
-      counter-reset: item-counter;
       overflow-y: auto;
       scrollbar-width: none;
     }
@@ -119,28 +114,22 @@
       display: flex;
       align-items: center;
     }
-
     .index-item::before {
       counter-increment: item-counter;
       content: "ID_0" counter(item-counter);
-      font-size: 0.6rem;
-      color: var(--accent);
-      margin-right: 15px;
-      opacity: 0.6;
+      font-size: 0.6rem; color: var(--accent); margin-right: 15px; opacity: 0.6;
     }
-
-    .index-item:hover { 
-      color: #fff; 
-      transform: translateX(8px); 
-    }
+    .index-item:hover { color: #fff; transform: translateX(8px); }
 
     #three-canvas-container { 
       width: 40%; 
       height: 100%; 
       border-left: 1px solid #1a1a1a;
-      z-index: 1; 
+      background: #000;
+      position: relative;
     }
 
+    /* --- PROJECT LAYOUT --- */
     .project-list-wrapper { display: flex; flex-direction: column; gap: 150px; }
     .project-entry { width: 100%; scroll-margin-top: 100px; }
     .project-title { font-family: 'JetBrains Mono', monospace; font-size: 2.2rem; margin-bottom: 8px; text-transform: uppercase; }
@@ -155,23 +144,14 @@
     
     .project-media-grid > * { 
       grid-column: span 6;
-      position: relative;
-      overflow: hidden;
       background: #111;
-      transition: transform 0.3s ease;
       border: 1px solid #1a1a1a;
       border-radius: 2px;
     }
 
     .project-media-grid .video-wrapper { grid-column: span 12; aspect-ratio: 16 / 9; }
-    .project-media-grid img { 
-      width: 100%; height: 100%;
-      object-fit: cover; display: block;
-      aspect-ratio: 16 / 11; 
-      cursor: zoom-in;
-    }
-
-    .project-media-grid img:hover { z-index: 10; transform: scale(1.02); }
+    .project-media-grid img { width: 100%; height: 100%; object-fit: cover; display: block; aspect-ratio: 16 / 11; cursor: zoom-in; transition: transform 0.3s ease; }
+    .project-media-grid img:hover { transform: scale(1.02); }
 
     .video-wrapper { position: relative; cursor: pointer; }
     .video-cover {
@@ -184,76 +164,34 @@
       width: 60px; height: 60px; background: rgba(0, 0, 0, 0.7);
       backdrop-filter: blur(5px); border: 1px solid #fff;
       border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      transition: all 0.3s ease;
+      transition: 0.3s;
     }
     .custom-play-btn::after {
       content: ''; border-top: 10px solid transparent; border-bottom: 10px solid transparent;
       border-left: 18px solid white; margin-left: 5px;
     }
-
-    .video-wrapper:hover .custom-play-btn {
-      border-color: var(--accent);
-      box-shadow: 0 0 15px rgba(38, 201, 223, 0.4);
-      transform: scale(1.1);
-    }
+    .video-wrapper:hover .custom-play-btn { border-color: var(--accent); box-shadow: 0 0 15px rgba(38, 201, 223, 0.4); transform: scale(1.1); }
     .video-wrapper:hover .custom-play-btn::after { border-left-color: var(--accent); }
 
     iframe, video { width: 100%; height: 100%; object-fit: cover; border: none; }
     .project-description { color: #bbb; font-size: 1rem; line-height: 1.8; max-width: 750px; }
 
-    /* --- LIGHTBOX --- */
-    #lightbox {
-      position: fixed; z-index: 10000; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.95); display: none; align-items: center; justify-content: center;
-      opacity: 0; transition: opacity 0.3s ease;
-    }
-    #lightbox.active { display: flex; opacity: 1; }
-    #lightbox img { max-width: 85%; max-height: 85%; border-radius: 4px; object-fit: contain; }
-
-    .lightbox-arrow {
-      position: absolute; top: 50%; transform: translateY(-50%);
-      background: none; border: none; color: white; font-size: 3rem;
-      cursor: pointer; z-index: 10005; padding: 20px; transition: 0.3s;
-      font-family: 'JetBrains Mono', monospace; opacity: 0.5;
-    }
-    .lightbox-arrow:hover { opacity: 1; color: var(--accent); }
-    .arrow-left { left: 20px; }
-    .arrow-right { right: 20px; }
-
-    #back-to-top {
-      position: fixed; bottom: 40px; right: 40px; width: 45px; height: 45px;
-      background: rgba(0,0,0,0.8); border: 1px solid var(--accent);
-      color: var(--accent); border-radius: 50%; display: flex;
-      align-items: center; justify-content: center; cursor: pointer;
-      opacity: 0; visibility: hidden; transition: 0.4s ease; z-index: 100;
-      text-decoration: none; font-family: 'JetBrains Mono', monospace;
-    }
-    #back-to-top.visible { opacity: 1; visibility: visible; }
-
-    footer { position: fixed; bottom: 0; left: 0; width: 100%; z-index: 10; padding: 30px; text-align: center; pointer-events: none; }
-    .footer-content { pointer-events: auto; display: flex; flex-direction: column; align-items: center; gap: 15px; }
-    .social-links { display: flex; gap: 20px; }
-    .social-icon { width: 24px; height: 24px; stroke: #444; fill: none; transition: 0.3s; }
-    .social-links a:hover .social-icon { stroke: #fff; transform: translateY(-3px); }
-    .footer-text { font-size: 0.65rem; color: #444; letter-spacing: 2px; text-transform: uppercase; }
-
-    /* --- MOBILE OVERRIDES --- */
+    /* --- MOBILE REFINEMENTS --- */
     @media (max-width: 1100px) {
       #index-container { flex-direction: column; height: auto; }
       #index-ui { padding: 30px 20px; align-items: flex-start; }
-      #auto-index { 
-        display: flex; flex-direction: column; align-items: flex-start; 
-        flex-wrap: nowrap; max-height: none; width: 100%; 
-      }
-      .index-item { width: 100%; justify-content: flex-start; }
+      #auto-index { flex-direction: column; align-items: flex-start; flex-wrap: nowrap; max-height: none; width: 100%; }
+      .index-item { width: 100%; justify-content: flex-start; padding: 5px 0; }
       #three-canvas-container { 
-        width: 100% !important; height: 250px; 
-        border-left: none; border-top: 1px solid #1a1a1a; 
+        width: 100%; 
+        height: 300px; /* Explicit height ensures it won't disappear */
+        border-left: none; 
+        border-top: 1px solid #1a1a1a; 
       }
       .main-nav { position: relative; top: 0; left: 0; padding: 40px; width: 100%; }
-      .works-container { margin: 0 auto; max-width: 90%; }
+      .works-container { margin: 0 auto; max-width: 92%; }
       .project-media-grid > * { grid-column: span 12 !important; }
-      .works-title { font-size: 2.2rem; }
+      .works-title { font-size: 2.4rem; }
     }
   </style>
 </head>
@@ -261,18 +199,12 @@
 
   <div id="transition-overlay"></div>
   
-  <div id="lightbox">
-    <button class="lightbox-arrow arrow-left" id="prevBtn">&lt;</button>
-    <img src="" id="lightboxImg">
-    <button class="lightbox-arrow arrow-right" id="nextBtn">&gt;</button>
-  </div>
-
   <nav class="main-nav">
     <div class="nav-logo">MG. Lawless</div>
     <div class="nav-links">
-      <a href="./" class="transition-link">Home</a>
-      <a href="works.html" class="transition-link" style="color: #fff;">Works</a>
-      <a href="blog.html" class="transition-link">Blog</a>
+      <a href="./">Home</a>
+      <a href="works.html" style="color: #fff;">Works</a>
+      <a href="blog.html">Blog</a>
       <div class="copy-link" id="copyEmail">
         <span class="label">Copy Email</span>
         <span class="status">Email Copied ✓</span>
@@ -299,142 +231,82 @@
     </main>
   </div>
 
-  <a href="#" id="back-to-top">↑</a>
-
-  <footer>
-    <div class="footer-content">
-      <div class="social-links">
-        <a href="https://www.youtube.com/@lawless-mg" target="_blank">
-          <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.42a2.78 2.78 0 0 0-1.94 2C1 8.14 1 12 1 12s0 3.86.46 5.58a2.78 2.78 0 0 0 1.94 2c1.72.42 8.6.42 8.6.42s6.88 0 8.6-.42a2.78 2.78 0 0 0 1.94-2C23 15.86 23 12 23 12s0-3.86-.46-5.58z"></path>
-            <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"></polygon>
-          </svg>
-        </a>
-        <a href="https://steamcommunity.com/id/gunslinging1/" target="_blank">
-          <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2a10 10 0 0 0-9.92 8.79l3.5 1.54a3.5 3.5 0 0 1 6.3 2.11l4.47 2a3.5 3.5 0 1 1-.44 1.27l-4.47-2a3.5 3.5 0 0 1-5.18-3.04l-3.53-1.55A10 10 0 1 0 12 2z"/>
-          </svg>
-        </a>
-      </div>
-      <div class="footer-text">©2026 / LAWLESS / MARWAN GEBRIEL</div>
-    </div>
-  </footer>
-
   <script>
-    let allMediaUrls = [];
-    let currentMediaIndex = 0;
-
     function initIndexParticles() {
       const container = document.getElementById('three-canvas-container');
+      if (!container) return;
+
       const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(75, container.offsetWidth / container.offsetHeight, 0.1, 1000);
+      const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
       const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
       
-      // High-definition fix for mobile
       renderer.setPixelRatio(window.devicePixelRatio);
-      renderer.setSize(container.offsetWidth, container.offsetHeight);
+      renderer.setSize(container.clientWidth, container.clientHeight);
       container.appendChild(renderer.domElement);
 
       const geometry = new THREE.IcosahedronGeometry(140, 1);
-      const wireframe = new THREE.WireframeGeometry(geometry);
-      const lineMat = new THREE.LineBasicMaterial({ color: 0x26c9df, transparent: true, opacity: 0.2 });
-      const core = new THREE.LineSegments(wireframe, lineMat);
+      const core = new THREE.LineSegments(new THREE.WireframeGeometry(geometry), new THREE.LineBasicMaterial({ color: 0x26c9df, transparent: true, opacity: 0.2 }));
       scene.add(core);
 
       const starGeo = new THREE.BufferGeometry();
       const starPos = [];
-      for(let i=0; i<300; i++) {
-        starPos.push(THREE.MathUtils.randFloatSpread(400), THREE.MathUtils.randFloatSpread(400), THREE.MathUtils.randFloatSpread(400));
+      for(let i=0; i<400; i++) {
+        starPos.push(THREE.MathUtils.randFloatSpread(600), THREE.MathUtils.randFloatSpread(600), THREE.MathUtils.randFloatSpread(600));
       }
       starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starPos, 3));
-      const starMat = new THREE.PointsMaterial({ color: 0x26c9df, size: 1.5, transparent: true, opacity: 0.5 });
-      const stars = new THREE.Points(starGeo, starMat);
+      const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0x26c9df, size: 1.5, transparent: true, opacity: 0.5 }));
       scene.add(stars);
 
-      camera.position.z = 400;
+      camera.position.z = 450;
 
       function animate() {
         requestAnimationFrame(animate);
-        core.rotation.y += 0.004;
-        core.rotation.x += 0.002;
+        core.rotation.y += 0.003;
         stars.rotation.y -= 0.001;
         renderer.render(scene, camera);
       }
       animate();
 
       window.addEventListener('resize', () => {
-        camera.aspect = container.offsetWidth / container.offsetHeight;
+        camera.aspect = container.clientWidth / container.clientHeight;
         camera.updateProjectionMatrix();
-        renderer.setSize(container.offsetWidth, container.offsetHeight);
+        renderer.setSize(container.clientWidth, container.clientHeight);
       });
     }
 
-    function playVideo(coverElement) {
-      const wrapper = coverElement.parentElement;
-      const iframe = wrapper.querySelector('iframe');
-      iframe.setAttribute('src', iframe.getAttribute('src') + "&autoplay=1");
-      coverElement.style.opacity = '0';
-      setTimeout(() => { coverElement.style.display = 'none'; }, 400);
+    function playVideo(cover) {
+      const iframe = cover.parentElement.querySelector('iframe');
+      iframe.src += "&autoplay=1";
+      cover.style.opacity = '0';
+      setTimeout(() => cover.style.display = 'none', 400);
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      const overlay = document.getElementById('transition-overlay');
-      const lightbox = document.getElementById('lightbox');
-      const lightboxImg = document.getElementById('lightboxImg');
-      const backToTop = document.getElementById('back-to-top');
-
-      setTimeout(() => { overlay.style.opacity = '0'; }, 100);
-
-      window.openLightbox = (url) => {
-        currentMediaIndex = allMediaUrls.indexOf(url);
-        lightboxImg.src = url;
-        lightbox.classList.add('active');
-      };
-
-      const navigate = (dir) => {
-        currentMediaIndex = (currentMediaIndex + dir + allMediaUrls.length) % allMediaUrls.length;
-        lightboxImg.src = allMediaUrls[currentMediaIndex];
-      };
-
-      document.getElementById('prevBtn').addEventListener('click', (e) => { e.stopPropagation(); navigate(-1); });
-      document.getElementById('nextBtn').addEventListener('click', (e) => { e.stopPropagation(); navigate(1); });
+      setTimeout(() => { document.getElementById('transition-overlay').style.opacity = '0'; }, 100);
 
       fetch('works.json')
         .then(res => res.json())
         .then(data => {
-          const container = document.getElementById('works-list');
-          const indexList = document.getElementById('auto-index');
-          
-          indexList.innerHTML = data.map((project, idx) => `
-            <a href="#proj-${idx}" class="index-item">${project.title}</a>
-          `).join('');
-
-          container.innerHTML = data.map((project, idx) => {
-            project.media.forEach(m => { if(m.type === 'image') allMediaUrls.push(m.url); });
-
+          document.getElementById('auto-index').innerHTML = data.map((p, idx) => `<a href="#proj-${idx}" class="index-item">${p.title}</a>`).join('');
+          document.getElementById('works-list').innerHTML = data.map((p, idx) => {
+            const videoId = p.media[0].url.split('v=')[1]?.split('&')[0];
             return `
             <section class="project-entry" id="proj-${idx}">
-              <h1 class="project-title">${project.title}</h1>
-              <p class="project-tagline">${project.tagline}</p>
+              <h1 class="project-title">${p.title}</h1>
+              <p class="project-tagline">${p.tagline}</p>
               <div class="project-media-grid">
-                ${project.media.map(item => {
-                  if(item.type === 'video') {
-                    const videoId = item.url.includes('embed/') ? item.url.split('embed/')[1].split('?')[0] : item.url.split('v=')[1].split('&')[0];
-                    return `
-                      <div class="video-wrapper" onclick="playVideo(this.querySelector('.video-cover'))">
-                        <div class="video-cover" style="background-image: url('https://img.youtube.com/vi/${videoId}/maxresdefault.jpg')">
-                          <div class="custom-play-btn"></div>
-                        </div>
-                        <iframe src="https://www.youtube.com/embed/${videoId}?modestbranding=1&rel=0&color=white" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                      </div>`;
-                  }
-                  return `<img src="${item.url}" alt="${project.title}" onclick="openLightbox('${item.url}')">`;
-                }).join('')}
+                <div class="video-wrapper" onclick="playVideo(this.querySelector('.video-cover'))">
+                  <div class="video-cover" style="background-image: url('https://img.youtube.com/vi/${videoId}/maxresdefault.jpg')">
+                    <div class="custom-play-btn"></div>
+                  </div>
+                  <iframe src="https://www.youtube.com/embed/${videoId}?modestbranding=1&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
+                ${p.media.slice(1).map(m => `<img src="${m.url}">`).join('')}
               </div>
-              <p class="project-description">${project.description || ''}</p>
-            </section>
-          `}).join('');
-
+              <p class="project-description">${p.description || ''}</p>
+            </section>`;
+          }).join('');
+          
           initIndexParticles();
         });
 
